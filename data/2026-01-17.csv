@@ -1,0 +1,6 @@
+ORDER_ID,customer,AMOUNT,date
+1,JOrge,25.50,2025-07-01
+2,Alice,15.00,2025-07-01
+2,Alice,15.00,2025-07-01
+3,Bob,invalid_amount,2025-07-01
+4,Carol,40.00,invalid_date

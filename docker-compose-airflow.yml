@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      retries: 5
+
+  airflow:
+    image: apache/airflow:2.7.1
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://airflow:airflow@postgres:5432/airflow"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__RBAC: "true"
+      _PIP_ADDITIONAL_REQUIREMENTS: "psycopg2-binary pandas SQLAlchemy"
+      # DB_URI points to the analytical DB used by the DAG. Use host.docker.internal to reach host Postgres from container on Windows.
+      DB_URI: "postgresql+psycopg2://postgres:pascualina@host.docker.internal:5432/salesdb"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./data:/opt/airflow/dags/data
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    ports:
+      - "8080:8080"
+    command: "standalone"
+
+volumes:
+  airflow_pgdata:
+  

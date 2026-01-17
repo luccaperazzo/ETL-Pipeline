@@ -1,0 +1,59 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenv / environment
+venv/
+.env
+.env.*
+pip-wheel-metadata/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+
+# Logs and runtime files
+*.log
+logs/
+airflow/logs/
+*.sqlite
+airflow/airflow.db
+
+# Docker
+docker-compose.override.yml
+.env
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test/cache
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Ignore IDE/project files
+.vagrant/
+
+# Optional: ignore generated/processed CSVs (adjust if you want to keep them)
+#airflow/dags/data/*.processed.csv
+#airflow/dags/data/*.invalid.csv
+
+# PostgreSQL password file
+.pgpass
+
+# OneDrive / syncing temp
+~*\n
