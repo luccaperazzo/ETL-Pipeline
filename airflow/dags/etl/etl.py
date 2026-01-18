@@ -20,7 +20,11 @@ def validate_and_transform(df: pd.DataFrame) -> pd.DataFrame:
 
     df = df[REQUIRED_COLS].copy()
     df["order_id"] = pd.to_numeric(df["order_id"], errors="coerce").astype("Int64")
-    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+    # Clean `amount`: remove only the dollar sign `$`, then coerce to numeric.
+    # Note: we intentionally keep commas/parentheses handling out per request.
+    amt_raw = df["amount"].astype(str).str.strip()
+    amt_clean = amt_raw.str.replace(r"\$", "", regex=True)
+    df["amount"] = pd.to_numeric(amt_clean, errors="coerce")
     df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
 
     before = len(df)
